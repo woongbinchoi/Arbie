@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="MongoDB.Bson" Version="2.5.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\src\helpMessages.html" />
+    <None Include="wwwroot\src\Screenshots\1. GetStarted1.PNG" />
+    <None Include="wwwroot\src\Screenshots\10. Market-TwoCoin-MultiMarket.PNG" />
+    <None Include="wwwroot\src\Screenshots\11.Country-TwoCountry.PNG" />
+    <None Include="wwwroot\src\Screenshots\12.Country-TwoCountry-One.PNG" />
+    <None Include="wwwroot\src\Screenshots\13.Country-TwoCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\14. Country-MultipleCountry.PNG" />
+    <None Include="wwwroot\src\Screenshots\15_1. Country-MultipleCountry-One.PNG" />
+    <None Include="wwwroot\src\Screenshots\15_2. Country-MultipleCountry-One.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_1. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_2. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_3. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_4. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_5. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\16_6. Country-MultipleCountry-Multi.PNG" />
+    <None Include="wwwroot\src\Screenshots\2. GetStarted2.PNG" />
+    <None Include="wwwroot\src\Screenshots\3. Start.PNG" />
+    <None Include="wwwroot\src\Screenshots\4. help.PNG" />
+    <None Include="wwwroot\src\Screenshots\5. Market.PNG" />
+    <None Include="wwwroot\src\Screenshots\6. Country.PNG" />
+    <None Include="wwwroot\src\Screenshots\7. Market-TwoCoin.PNG" />
+    <None Include="wwwroot\src\Screenshots\8. Market-TwoCoin-TwoMarket.PNG" />
+    <None Include="wwwroot\src\Screenshots\9-1.Market-MultipleCoin.PNG" />
+    <None Include="wwwroot\src\Screenshots\9-2. Market-MultiCoin.PNG" />
+  </ItemGroup>
+
+  <Target Name="PrePublishTarget" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="npm run build" />
+    <ItemGroup>
+      <Dist Include="../../build/**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Dist)" DestinationFolder="$(PublishDir)\wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
