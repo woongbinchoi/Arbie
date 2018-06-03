@@ -391,6 +391,7 @@ namespace AspNetCoreDemoApp.Controllers
 
 		private string[] ProcessArbitrageRequest(string LastAction, string message)
 		{
+			SaveStatistics(LastAction);
 			string[] args = message.Split(' ');
 			int arrlen = args.Length;
 
@@ -456,6 +457,29 @@ namespace AspNetCoreDemoApp.Controllers
 				filter: new BsonDocument("_id", senderid),
 				options: new UpdateOptions { IsUpsert = true },
 				replacement: NewUserQuery);
+
+			SaveStatistics(operation);
+		}
+
+		private void SaveStatistics(string operation)
+		{
+			MongoDBContext dbContext = new MongoDBContext();
+			int count;
+			try
+			{
+				count = dbContext.Statistics.Find(m => m.SearchItem == operation).Limit(1).ToList().First().SearchCount;
+			}
+			catch
+			{
+				count = 0;
+			}
+			++count;
+
+			Statistics newStatRecord = new Statistics(operation, count);
+			dbContext.Statistics.ReplaceOneAsync(
+				filter: new BsonDocument("_id", operation),
+				options: new UpdateOptions { IsUpsert = true },
+				replacement: newStatRecord);
 		}
 
 		private string GetLastAction(string senderid)

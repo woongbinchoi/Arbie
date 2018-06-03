@@ -22,6 +22,20 @@ namespace AspNetCoreDemoApp.Models
 		}
 	}
 
+	public class Statistics
+	{
+		[BsonId]
+		public string SearchItem { get; set; }
+		[BsonElement("search_count")]
+		public int SearchCount { get; set; }
+
+		public Statistics(string searchItem, int searchCount)
+		{
+			SearchItem = searchItem;
+			SearchCount = searchCount;
+		}
+	}
+
 	public class MongoDBContext
 	{
 		public static string ConnectionString { get; set; }
@@ -50,6 +64,14 @@ namespace AspNetCoreDemoApp.Models
 			get
 			{
 				return _database.GetCollection<UserLogData>("UserLog");
+			}
+		}
+
+		public IMongoCollection<Statistics> Statistics
+		{
+			get
+			{
+				return _database.GetCollection<Statistics>("Statistics");
 			}
 		}
 	}
