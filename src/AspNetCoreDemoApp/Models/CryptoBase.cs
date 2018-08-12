@@ -34,7 +34,7 @@ namespace AspNetCoreDemoApp.Models
 
 		private HttpClient CoinAPIClient; // provide List of Top Markets
 		private HttpClient CoinMarketCapClient; // provide List of Top Coins
-		private HttpClient FixerClient; // provide Exchange List
+		private HttpClient ExchangeRateClient; // provide Exchange List
 		private HttpClient CoinHillsClient; // provide cspa: Average Coin Price per country
 		private HttpClient CryptoCompareClient; // provide Coin Price per market
 
@@ -69,7 +69,7 @@ namespace AspNetCoreDemoApp.Models
 		{
 			CoinAPIClient = SetClient("https://rest.coinapi.io/", "DCD1B5F3-520F-4FC6-8713-EDF5DBAF9AE7");
 			CoinMarketCapClient = SetClient("https://api.coinmarketcap.com/");
-			FixerClient = SetClient("https://api.fixer.io/");
+			ExchangeRateClient = SetClient("https://exchangeratesapi.io/api/");
 			CoinHillsClient = SetClient("https://api.coinhills.com/");
 			CryptoCompareClient = SetClient("https://min-api.cryptocompare.com/");
 		}
@@ -115,7 +115,7 @@ namespace AspNetCoreDemoApp.Models
 
 		public void UpdateExchangeList()
 		{
-			HttpResponseMessage response = FixerClient.GetAsync("latest?base=USD").Result;
+			HttpResponseMessage response = ExchangeRateClient.GetAsync("latest?base=USD").Result;
 			if (response.IsSuccessStatusCode)
 			{
 				string products = response.Content.ReadAsStringAsync().Result;
@@ -319,7 +319,6 @@ namespace AspNetCoreDemoApp.Models
 					CurrencyList += kvp.Key + ",";
 				}
 			}
-			CurrencyList += "USD";
 
 			string result = "";
 			if (CryptoCompareMultiGlobalQuery(CryptoCurr, CurrencyList, ref Result))
@@ -415,7 +414,6 @@ namespace AspNetCoreDemoApp.Models
 					CurrencyList += kvp.Key + ",";
 				}
 			}
-			CurrencyList += "USD";
 
 			string CoinList = "";
 			foreach (string CryptoCoin in TopCoinList)
